@@ -1,0 +1,26 @@
+{
+    "name": "christophwurst/kitinerary-bin",
+    "description": "KItinerary binary executable",
+    "type": "library",
+    "license": "LGPL-3.0-or-later",
+    "authors": [
+        {
+            "name": "Christoph Wurst",
+            "email": "christoph@winzerhof-wurst.at"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../kitinerary"
+        }
+    ],
+    "require": {
+        "christophwurst/kitinerary": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "ChristophWurst\\KItinerary\\Bin\\": "/src"
+        }
+    }
+}

@@ -1,0 +1,40 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "71170200b372712559ddbbc10fc5025d",
+    "packages": [
+        {
+            "name": "christophwurst/kitinerary",
+            "version": "dev-master",
+            "dist": {
+                "type": "path",
+                "url": "../kitinerary",
+                "reference": "39642ee2686d7415316d19edb5b044580fd1d3af"
+            },
+            "type": "library",
+            "license": [
+                "lgpl-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Christoph Wurst",
+                    "email": "christoph@winzerhof-wurst.at"
+                }
+            ],
+            "description": "KItinerary adapter"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "christophwurst/kitinerary": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}
