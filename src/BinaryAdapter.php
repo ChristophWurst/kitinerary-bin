@@ -29,6 +29,7 @@ use ChristophWurst\KItinerary\Adapter;
 use KItineraryRuntimeException;
 use function fclose;
 use function fwrite;
+use function in_array;
 use function is_array;
 use function is_resource;
 use function json_decode;
@@ -42,6 +43,10 @@ class BinaryAdapter implements Adapter
 	private static $isAvailable = null;
 
 	private function canRunBinary(): bool {
+		if (in_array('proc_open', explode(',', ini_get('disable_functions')), true)) {
+			return false;
+		}
+
 		$descriptors = [
 			0 => ['pipe', 'r'],
 			1 => ['pipe', 'w']
