@@ -4,19 +4,34 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "71170200b372712559ddbbc10fc5025d",
+    "content-hash": "7a03a67ee550a02b51c2600fcd083905",
     "packages": [
         {
             "name": "christophwurst/kitinerary",
-            "version": "dev-master",
+            "version": "0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ChristophWurst/kitinerary.git",
+                "reference": "af361b09dc37c4c67425a8b80357b350620c51fb"
+            },
             "dist": {
-                "type": "path",
-                "url": "../kitinerary",
-                "reference": "39642ee2686d7415316d19edb5b044580fd1d3af"
+                "type": "zip",
+                "url": "https://api.github.com/repos/ChristophWurst/kitinerary/zipball/af361b09dc37c4c67425a8b80357b350620c51fb",
+                "reference": "af361b09dc37c4c67425a8b80357b350620c51fb",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*"
             },
             "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "ChristophWurst\\KItinerary\\": "/src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "lgpl-3.0"
+                "AGPL-3.0-or-later"
             ],
             "authors": [
                 {
@@ -24,17 +39,18 @@
                     "email": "christoph@winzerhof-wurst.at"
                 }
             ],
-            "description": "KItinerary adapter"
+            "description": "KItinerary adapter",
+            "time": "2019-11-18T10:44:57+00:00"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "christophwurst/kitinerary": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
+    "platform": {
+        "ext-json": "*"
+    },
     "platform-dev": []
 }

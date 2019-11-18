@@ -9,14 +9,9 @@
             "email": "christoph@winzerhof-wurst.at"
         }
     ],
-    "repositories": [
-        {
-            "type": "path",
-            "url": "../kitinerary"
-        }
-    ],
     "require": {
-        "christophwurst/kitinerary": "dev-master"
+        "christophwurst/kitinerary": "^0.1.0",
+        "ext-json": "*"
     },
     "autoload": {
         "psr-4": {
