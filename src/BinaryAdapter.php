@@ -33,6 +33,7 @@ use function in_array;
 use function is_array;
 use function is_resource;
 use function json_decode;
+use function php_uname;
 use function proc_close;
 use function proc_open;
 use function stream_get_contents;
@@ -44,6 +45,10 @@ class BinaryAdapter implements Adapter
 
 	private function canRunBinary(): bool {
 		if (in_array('proc_open', explode(',', ini_get('disable_functions')), true)) {
+			return false;
+		}
+		if (php_uname('m') !== 'x86_64') {
+			// The binary only support x86_64
 			return false;
 		}
 
