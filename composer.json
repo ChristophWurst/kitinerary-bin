@@ -11,7 +11,8 @@
     ],
     "require": {
         "christophwurst/kitinerary": "^0.1.0",
-        "ext-json": "*"
+        "ext-json": "*",
+        "php": "^7.1"
     },
     "autoload": {
         "psr-4": {
