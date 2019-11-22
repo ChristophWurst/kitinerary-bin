@@ -47,8 +47,8 @@ class BinaryAdapter implements Adapter
 		if (in_array('proc_open', explode(',', ini_get('disable_functions')), true)) {
 			return false;
 		}
-		if (php_uname('m') !== 'x86_64') {
-			// The binary only support x86_64
+		if (php_uname('s') !== 'Linux' || php_uname('m') !== 'x86_64') {
+			// The binary only support Linux x86_64
 			return false;
 		}
 
