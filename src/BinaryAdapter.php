@@ -26,7 +26,7 @@ declare(strict_types=1);
 namespace ChristophWurst\KItinerary\Bin;
 
 use ChristophWurst\KItinerary\Adapter;
-use KItineraryRuntimeException;
+use ChristophWurst\KItinerary\Exception\KItineraryRuntimeException;
 use function fclose;
 use function fwrite;
 use function in_array;
