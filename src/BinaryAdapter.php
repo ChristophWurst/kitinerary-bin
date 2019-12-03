@@ -27,6 +27,9 @@ namespace ChristophWurst\KItinerary\Bin;
 
 use ChristophWurst\KItinerary\Adapter;
 use ChristophWurst\KItinerary\Exception\KItineraryRuntimeException;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 use function fclose;
 use function fwrite;
 use function in_array;
@@ -38,17 +41,37 @@ use function proc_close;
 use function proc_open;
 use function stream_get_contents;
 
-class BinaryAdapter implements Adapter
+class BinaryAdapter implements Adapter, LoggerAwareInterface
 {
 
 	private static $isAvailable = null;
 
+	/** @var LoggerInterface */
+	private $logger;
+
+	public function __construct()
+	{
+		$this->logger = new NullLogger();
+	}
+
+	/**
+	 * Sets a logger instance on the object.
+	 *
+	 * @return void
+	 */
+	public function setLogger(LoggerInterface $logger)
+	{
+		$this->logger = $logger;
+	}
+
 	private function canRunBinary(): bool {
 		if (in_array('proc_open', explode(',', ini_get('disable_functions')), true)) {
+			$this->logger->warning('proc_open is disabled');
 			return false;
 		}
 		if (php_uname('s') !== 'Linux' || php_uname('m') !== 'x86_64') {
 			// The binary only support Linux x86_64
+			$this->logger->warning('kitinerary-extractor requires Linux x86_64');
 			return false;
 		}
 
@@ -57,8 +80,10 @@ class BinaryAdapter implements Adapter
 			1 => ['pipe', 'w']
 		];
 
-		$proc = proc_open(__DIR__ . '/../bin/kitinerary-extractor', $descriptors, $pipes);
+		$binPath = __DIR__ . '/../bin/kitinerary-extractor';
+		$proc = proc_open($binPath, $descriptors, $pipes);
 		if (!is_resource($proc)) {
+			$this->logger->warning('Could not open ' . realpath($binPath));
 			return false;
 		}
 		fclose($pipes[0]);
@@ -103,6 +128,7 @@ class BinaryAdapter implements Adapter
 
 		$decoded = json_decode($output, true);
 		if (!is_array($decoded)) {
+			$this->logger->error('Could not parse kitinerary-extract output');
 			return [];
 		}
 		return $decoded;
