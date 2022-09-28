@@ -101,14 +101,31 @@ class BinaryAdapter implements Adapter, LoggerAwareInterface
 		return self::$isAvailable;
 	}
 
+	public function extractIcalFromString(string $source): string
+	{
+		return $this->callBinary($source, ['--output','ical']);
+	}
+
 	public function extractFromString(string $source): array
+	{
+		$output = $this->callBinary($source, []);
+
+		$decoded = json_decode($output, true);
+		if (!is_array($decoded)) {
+			$this->logger->error('Could not parse kitinerary-extract output');
+			return [];
+		}
+		return $decoded;
+	}
+
+	private function callBinary(string $source, array $options): string
 	{
 		$descriptors = [
 			0 => ['pipe', 'r'],
 			1 => ['pipe', 'w']
 		];
 
-		$proc = proc_open(__DIR__ . '/../bin/kitinerary-extractor', $descriptors, $pipes);
+		$proc = proc_open([__DIR__ . '/../bin/kitinerary-extractor', ...$options], $descriptors, $pipes);
 		if (!is_resource($proc)) {
 			throw new KItineraryRuntimeException("Could not invoke shipped kitinerary-extractor");
 		}
@@ -126,12 +143,7 @@ class BinaryAdapter implements Adapter, LoggerAwareInterface
 			throw new KItineraryRuntimeException("kitinerary-extractor returned exit code $ret");
 		}
 
-		$decoded = json_decode($output, true);
-		if (!is_array($decoded)) {
-			$this->logger->error('Could not parse kitinerary-extract output');
-			return [];
-		}
-		return $decoded;
+		return $output;
 	}
 
 }
