@@ -12,12 +12,15 @@
     "require": {
         "christophwurst/kitinerary": "^0.2.2",
         "ext-json": "*",
-        "php": "^7.1",
+        "php": "^7.1 || ^8.0",
         "psr/log": "^1.1"
     },
     "autoload": {
         "psr-4": {
             "ChristophWurst\\KItinerary\\Bin\\": "/src"
         }
+    },
+    "scripts": {
+        "lint": "find . -name \\*.php -not -path './vendor/*' -print0 | xargs -0 -n1 php -l"
     }
 }
