@@ -59,7 +59,7 @@ class BinaryAdapter implements Adapter, LoggerAwareInterface
 	 *
 	 * @return void
 	 */
-	public function setLogger(LoggerInterface $logger):void
+	public function setLogger(LoggerInterface $logger): void
 	{
 		$this->logger = $logger;
 	}
