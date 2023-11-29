@@ -1,0 +1,61 @@
+name: Build
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 3 * * 1'
+
+permissions:
+  contents: write
+
+jobs:
+  static-build:
+    name: Static build
+    runs-on: ubuntu-latest
+    container:
+      image: centos:centos7
+    steps:
+      - name: Checkout kitinerary repo
+        uses: actions/checkout@v3
+        with:
+          repository: 'KDE/kitinerary'
+          path: kitinerary
+      - name: Build
+        working-directory: kitinerary
+        run: |
+          export BUILD_ROOT=/builds
+          export STAGING_ROOT=/builds/staging
+          scripts/setup-centos.sh
+          source /opt/rh/rh-git227/enable
+          source /opt/rh/devtoolset-11/enable
+          scripts/build-openssl.sh
+          scripts/build-iso-codes.sh
+          scripts/build-static-qt.sh
+          scripts/build-cmake-modules.sh
+          scripts/collect-data-files.sh
+          strip /builds/pim/kitinerary/build/bin/kitinerary-extractor
+        env:
+          CI_PROJECT_PATH: pim/kitinerary
+      - name: Upgrade git
+        run: |
+          yum -y remove git*
+          yum -y install https://packages.endpointdev.com/rhel/7/os/x86_64/endpoint-repo.x86_64.rpm
+          yum -y install git
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          path: kitinerary-bin
+      - name: Copy artifact
+        run: cp /builds/pim/kitinerary/build/bin/kitinerary-extractor kitinerary-bin/bin/kitinerary-extractor
+      - name: Create pull request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          path: kitinerary-bin
+          commit-message: "fix: Update kitinerary-extractor"
+          committer: GitHub <noreply@github.com>
+          author: nextcloud-command <nextcloud-command@users.noreply.github.com>
+          signoff: true
+          branch: fix/update-kitinerary-extractor
+          title: "fix: Update kitinerary-extractor"
+          body: |
+            Automated static build
