@@ -15,11 +15,24 @@ jobs:
     container:
       image: centos:centos7
     steps:
+      - name: Install git
+        run: |
+          yum -y remove git*
+          yum -y install https://packages.endpointdev.com/rhel/7/os/x86_64/endpoint-repo.x86_64.rpm
+          yum -y install git
       - name: Checkout kitinerary repo
         uses: actions/checkout@v3
         with:
           repository: 'KDE/kitinerary'
+          fetch-depth: 0
           path: kitinerary
+      - name: Checkout last kitinerary version tag
+        id: version
+        working-directory: kitinerary
+        run: |
+          export KITINERARY_VERSION=$(git describe --tags --match=v*.*.*)
+          echo "KITINERARY_VERSION=$KITINERARY_VERSION" >> "$GITHUB_OUTPUT"
+          git checkout $KITINERARY_VERSION
       - name: Build
         working-directory: kitinerary
         run: |
@@ -36,11 +49,6 @@ jobs:
           strip /builds/pim/kitinerary/build/bin/kitinerary-extractor
         env:
           CI_PROJECT_PATH: pim/kitinerary
-      - name: Upgrade git
-        run: |
-          yum -y remove git*
-          yum -y install https://packages.endpointdev.com/rhel/7/os/x86_64/endpoint-repo.x86_64.rpm
-          yum -y install git
       - name: Checkout
         uses: actions/checkout@v3
         with:
@@ -51,11 +59,11 @@ jobs:
         uses: peter-evans/create-pull-request@v5
         with:
           path: kitinerary-bin
-          commit-message: "fix: Update kitinerary-extractor"
+          commit-message: "fix(deps): Bump kitinerary-extractor to ${{ steps.version.outputs.KITINERARY_VERSION }}"
           committer: GitHub <noreply@github.com>
           author: nextcloud-command <nextcloud-command@users.noreply.github.com>
           signoff: true
-          branch: fix/update-kitinerary-extractor
-          title: "fix: Update kitinerary-extractor"
+          branch: "fix/update-kitinerary-extractor-${{ steps.version.outputs.KITINERARY_VERSION }}"
+          title: "fix(deps): Bump kitinerary-extractor to ${{ steps.version.outputs.KITINERARY_VERSION }}"
           body: |
             Automated static build
