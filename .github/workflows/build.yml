@@ -61,8 +61,6 @@ jobs:
         with:
           path: kitinerary-bin
           commit-message: "fix(deps): Bump kitinerary-extractor to ${{ steps.version.outputs.KITINERARY_VERSION }}"
-          committer: GitHub <noreply@github.com>
-          author: nextcloud-command <nextcloud-command@users.noreply.github.com>
           signoff: true
           branch: "fix/update-kitinerary-extractor-${{ steps.version.outputs.KITINERARY_VERSION }}"
           title: "fix(deps): Bump kitinerary-extractor to ${{ steps.version.outputs.KITINERARY_VERSION }}"
