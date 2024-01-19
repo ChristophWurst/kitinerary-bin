@@ -31,7 +31,7 @@ jobs:
         id: version
         working-directory: kitinerary
         run: |
-          export KITINERARY_VERSION=$(git describe --tags --match=v*.*.*)
+          export KITINERARY_VERSION=$(git describe --tags --abbrev=0 --match=v*.*.*)
           echo "KITINERARY_VERSION=$KITINERARY_VERSION" >> "$GITHUB_OUTPUT"
           git checkout $KITINERARY_VERSION
       - name: Build
