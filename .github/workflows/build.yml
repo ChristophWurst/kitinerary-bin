@@ -59,9 +59,11 @@ jobs:
       - name: Create pull request
         uses: peter-evans/create-pull-request@v5
         with:
-          token: ${{ secrets.BUILD_PAT }}
+          token: ${{ secrets.COMMAND_BOT_PAT }}
           path: kitinerary-bin
           commit-message: "fix(deps): Bump kitinerary-extractor to ${{ steps.version.outputs.KITINERARY_VERSION }}"
+          committer: nextcloud-command <nextcloud-command@users.noreply.github.com>
+          author: nextcloud-command <nextcloud-command@users.noreply.github.com>
           branch: "fix/update-kitinerary-extractor-${{ steps.version.outputs.KITINERARY_VERSION }}"
           title: "fix(deps): Bump kitinerary-extractor to ${{ steps.version.outputs.KITINERARY_VERSION }}"
           body: |
