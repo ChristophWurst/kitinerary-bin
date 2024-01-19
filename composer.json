@@ -1,23 +1,22 @@
 {
-    "name": "christophwurst/kitinerary-bin",
+    "name": "nextcloud/kitinerary-bin",
     "description": "KItinerary binary executable",
     "type": "library",
     "license": "LGPL-3.0-or-later",
     "authors": [
         {
-            "name": "Christoph Wurst",
-            "email": "christoph@winzerhof-wurst.at"
+            "name": "Christoph Wurst"
         }
     ],
     "require": {
-        "christophwurst/kitinerary": "^0.2.2",
+        "nextcloud/kitinerary": "^1.0",
         "ext-json": "*",
         "php": "^7.4 || ^8.0",
         "psr/log": "^1.1|^2.0|^3.0"
     },
     "autoload": {
         "psr-4": {
-            "ChristophWurst\\KItinerary\\Bin\\": "/src"
+            "Nextcloud\\KItinerary\\Bin\\": "/src"
         }
     },
     "scripts": {
